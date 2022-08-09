@@ -1,8 +1,8 @@
 module.exports = {
-	name: 'ping',
-	description: 'Check if the bot is online',
+	name: 'help',
+    description: 'Learn about my commands',
 	async execute(msgArray, channel) {
 		console.log('Executing', this.name);
-		channel.send('pong');
+		channel.send('Commands: help, ping');
 	},
 };
