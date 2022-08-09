@@ -6,6 +6,8 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 
+let botPrefix = 'Rb';
+
 client.commands = new Collection();
 const commandsPath = path.join(__dirname, 'commands');
 const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
@@ -13,7 +15,7 @@ const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('
 for (const file of commandFiles) {
 	const filePath = path.join(commandsPath, file);
 	const command = require(filePath);
-	client.commands.set(command.data.name, command);
+	client.commands.set(command.name, command);
 }
 
 client.once('ready', () => {
@@ -21,30 +23,21 @@ client.once('ready', () => {
 });
 
 //Read Messages
-client.on('interactionCreate', async interaction => {
-    console.log(interaction.commandName);
-    if (!interaction.isChatInputCommand()) return;
-    const command = client.commands.get(interaction.commandName);
-    if (!command) return;
-
-    try {
-        await command.execute(interaction);
-    } catch (error) {
-        console.error(error);
-        await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-    }
-});
-
 client.on('messageCreate', async msg => {
     if (msg.author.bot) return;
-    //console.log(msg);
     
-    const command = client.commands.get('pong');
+    //check if message starts with bot prefix 
+    const msgArray = msg.content.split(" ");
+    if (!(msgArray[0].toUpperCase() === botPrefix.toUpperCase())) return;
+    
+    //check for valid command
+    if (msgArray.length < 2) return;
+    const command = client.commands.get(msgArray[1]);
     if (!command) return;
-    
+
+    //execute command
     try {
-        console.log(command.execute('pong').content);
-        await command.execute('pong');
+        await command.execute(msgArray, msg.channel);
     } catch (error) {
         console.error(error);
         await msg.reply({ content: 'There was an error while executing this command!', ephemeral: true });
