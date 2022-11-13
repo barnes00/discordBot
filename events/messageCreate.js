@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const { owners } = require("..");
 
 module.exports = {
     name: "messageCreate",
@@ -16,12 +15,15 @@ module.exports = {
         let command = client.commands.get(cmdstr);
         if (!command) return;
         let member = message.member;
-        if (command.devOnly && !owners.includes(member.id)){
+        if (command.devOnly && !bot.owners.includes(member.id)){
             return message.reply("This command is only available to bot owners");
         }
 
         if (command.permissions && member.permissions.missing(command.permissions).length !== 0){
             return message.reply("You do not have permission to use this command");
+        }
+        if (args[0] === "help"){
+            return message.channel.send(command.description + "\n" + command.syntax);
         }
 
         try{

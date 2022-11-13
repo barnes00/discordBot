@@ -1,50 +1,53 @@
-const textToTime = (num, unit) => {
-    if(unit.includes("minute")){
-        return num * 60 * 1000;
-    }
-    else if(unit.includes("hour")){
-        return num * 60 * 60 * 1000;
-    }
-    else if(unit.includes("day")){
-        return num * 24 * 60 * 60 * 1000;
-    }
-    else{
-        return 0;
-    }
-}
+const { PermissionFlagsBits } = require("discord.js");
+const { textToTime , getGuildUserID } = require("../../util/functions");
 
 module.exports = {
     name: "timeout",
     category: "moderation",
-    description: "Timeout a member",
-    syntax: "rb timeout @user # minutes/hours/days for reason",
-    permissions: ["MODERATE_MEMBERS"],
+    description: "Timeout a member. Max timeout: 28 days",
+    syntax: "Usage: rb timeout @user # minutes/hours/days (reason)",
+    permissions: [PermissionFlagsBits.ManageGuild],
     devOnly: false,
     run : async ({client, message, args}) => {
-        if((args.length < 3) || isNaN(Number(args[1]))){
-            message.channel.send("Invalid syntax");
-            return;
+        console.log("timeout");
+
+        //get duration of timeout
+        if(args[1] === "remove"){ //case for removing timeout
+            duration = null;
+        }
+        else if(isNaN(Number(args[1])) || args.length < 3){ //invalid input 
+            return message.channel.send("Invalid input. Timeout failed");
+        }
+        else{ //valid input
+            duration = textToTime(args[1], args[2]);
+            if (duration > (28 * 86400000)){
+                return message.channel.send('Duration error: max timeout 28 days. Timeout failed')
+            }
+            else if(duration <= 0){
+                return message.channel.send("Invalid input. Timeout failed");
+            }
+        }
+        
+        //get member to timeout
+        const member = message.guild.members.cache.get(getGuildUserID(args[0]));
+        if(member === undefined){
+            return message.channel.send("Invalid member. Timeout failed");
         }
 
-        //get member from message
-        let userID = args[0].includes('<@!') ? args[0].replace('<@!', '').replace('>', '')
-        : args[0].includes('<@') ? args[0].replace('<@', '').replace('>', '') : '';
-        const member = message.guild.members.cache.get(userID);
-        
-        const duration = textToTime(args[1], args[2]);
-        const reason = args.slice(4).join(' ') || "No reason given";
+        //get reason for timeout
+        const reason = args.slice(3).join(' ') || "No reason given";
 
-        if (duration > 2592000000 || duration <= 0){
-            return message.channel.send('Duration error: max timeout 30 days')
-        }
-        
-        try{
+        //execute timeout
+        try{ 
             await member.timeout(duration, reason);
-            return message.channel.send(`${member.user.username} has been timed out`);
+            if(duration === null){
+                return message.channel.send("Timeout removed");
+            }
+            return message.channel.send("Timeout successful");
         }
         catch(err){
             console.error(err);
-            return message.channel.send("Failed to timeout")
+            return message.channel.send("Error. Timeout failed")
         }
     }
 }
