@@ -13,10 +13,12 @@ module.exports = {
 
         let helpMsg = '';
         fs.readdirSync("./commands/").forEach((category) => {
-            helpMsg = helpMsg.concat(category, ": ");
-            commands = getFiles(`./commands/${category}`, ".js");
-            helpMsg = helpMsg.concat(commands.join(", "));
-            helpMsg = helpMsg.concat("\n");
+            if(category !== "dev"){
+                helpMsg = helpMsg.concat(category, ": ");
+                commands = getFiles(`./commands/${category}`, ".js");
+                helpMsg = helpMsg.concat(commands.join(", "));
+                helpMsg = helpMsg.concat("\n");
+            }      
         })
 
         helpMsg = helpMsg.replaceAll(/.js/g, "");

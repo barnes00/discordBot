@@ -2,7 +2,8 @@
   "dependencies": {
     "@discordjs/rest": "^1.0.1",
     "discord.js": "^14.6.0",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "node-fetch": "^2.6.7"
   },
   "name": "discordbot",
   "version": "1.0.0",
