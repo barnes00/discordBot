@@ -13,11 +13,11 @@ module.exports = {
 
         const footerTxt = message.author.username + " gave you a kiss"
         const res = await fetch('https://nekos.life/api/v2/img/kiss').then(res => res.json())
-        const exampleEmbed = new EmbedBuilder()
+        const Embed = new EmbedBuilder()
 	        .setColor(0x70d9ee)
 	        .setImage(res.url)
 	        .setFooter({ text: footerTxt });    
         
-        message.channel.send({ embeds: [exampleEmbed] });     
+        message.channel.send({ embeds: [Embed] });     
     }
 }
