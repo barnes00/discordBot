@@ -49,35 +49,40 @@ module.exports = {
         function resolveAfterAnswer(answers, engAns) {
             return new Promise(resolve => {
                 const filter = m => !m.author.bot;
+                let timeout = true;
                 const collector = message.channel.createMessageCollector({ filter, time: 120000 });
                 collector.on('collect', m => {
                     const msg = m.content.toLowerCase();
 
                     if (answers.has(msg)) {
                         m.reply("Correct!")
+                        timeout = false;
                         collector.stop()
+                        resolve();
                     }
-                    else if (msg === 'skip'){         
+                    else if (msg === 'skip'){
+                        timeout = false;
                         collector.stop()
+                        resolve();
                     }
                     else if (msg === 'hint') {
                         let hintMsg = engAns.charAt(0).padEnd((engAns.length), '?');
                         message.channel.send(hintMsg);
                     }
                     else if (msg === 'exit' || msg === 'rb poketrivia') {
-                        message.channel.send("Quiz ended")
+                        message.channel.send("Trivia ended")
+                        timeout = false;
+                        collector.stop()
                         resolve("exit");
-                        collector.stop()          
                     }
                 })
                 
                 collector.on('end', collected => {
-                    resolve();
-                    clearTimeout();
-                    console.log(`stop`);
+                    if(timeout === true){
+                        message.channel.send("Question timeout")
+                    }
                 });
                 setTimeout(() => {
-                    message.channel.send("Question timeout")
                     resolve();
                 }, 120000);
             });

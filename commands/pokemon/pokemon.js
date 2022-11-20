@@ -32,7 +32,5 @@ module.exports = {
             .setFooter({ text: pokeInfo.species.name });
 
         message.channel.send({ embeds: [Embed] });
-
-
     }
 }

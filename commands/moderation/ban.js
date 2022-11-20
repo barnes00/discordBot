@@ -13,6 +13,7 @@ module.exports = {
         console.log("ban");
 
         //get duration of message deletion
+        let duration; 
         if(args.length < 1){ //invalid input 
             return message.channel.send("Invalid input. Ban failed");
         }
@@ -40,6 +41,7 @@ module.exports = {
 
         //execute ban
         try{ 
+            console.log(duration)
             if(duration === undefined){
                 await member.ban({ reason: reason });
             }
