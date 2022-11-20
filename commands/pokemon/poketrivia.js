@@ -4,53 +4,83 @@ const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: "poketrivia",
     category: "pokemon",
-    description: "Sends an image and users must name the pokemon. Questions timeout after 2 minutes or when a user types exit",
-    syntax: "rb poketrivia [# of questions (max:20)]",
+    description: "Sends an image and users must name the pokemon. Questions timeout after 2 minutes. \n Options during quiz: hint, skip, exit",
+    syntax: "rb poketrivia (# of questions (max:20))",
     permissions: [],
     devOnly: false,
+    aliases: [],
     run: async ({ client, message, args }) => {
         console.log("poketrivia");
-        let cont = false;
-        // if (Number.isInteger(Number.parseInt(args[0])) && (args[0] <= 20) && (args[0] > 0)) {
-        //     for (let i = 0; i < Number.parseInt(args[0]); i++) {
-                
-                let rndmPoke = (Math.floor(Math.random() * 905) + 1).toString();
-                const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${rndmPoke}/`).then(res => res.json())
-                const answer = res.species.name;
-                let questionActive = true;
-                const Embed = new EmbedBuilder()
-                    .setColor(0x70d9ee)
-                    .setImage(res.sprites.other['official-artwork'].front_default)
-                    .setTitle("Who's That Pokémon?")
 
-                message.channel.send({ embeds: [Embed] });
-                message.channel.awaitMessages()
+        //multiple question logic
+        let qNum = 1;
+        if (Number.isInteger(Number.parseInt(args[0]))) {
+            if (!((args[0] <= 20) && (args[0] > 0))) {
+                return message.channel.send("Please enter a valid number (max: 20)")
+            }
+            qNum = Number.parseInt(args[0]);
+        }
 
-                const collector = message.channel.createMessageCollector({ time: 120000 });
+        for (let i = 0; i < qNum; i++) {
+            //generate question and answers
+            let rndmPoke = (Math.floor(Math.random() * 905) + 1).toString();
+            const pokeInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${rndmPoke}/`).then(res => res.json())
+            const speciesInfo = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${rndmPoke}/`).then(res => res.json())
+            
+            const engAns = pokeInfo.species.name.toLowerCase();
+            const answers = new Set(); //other language support
+            for (let i = 0; i < speciesInfo.names.length; i++) {
+                answers.add(speciesInfo.names[i].name.toLowerCase())
+            }
+
+            const Embed = new EmbedBuilder()
+                .setColor(0x70d9ee)
+                .setImage(pokeInfo.sprites.other['official-artwork'].front_default)
+                .setTitle("Who's That Pokémon?")
+            message.channel.send({ embeds: [Embed] });
+
+            //get answers
+            const result = await resolveAfterAnswer(answers, engAns);
+            if (result === "exit") {
+                break;
+            }
+        }
+
+        function resolveAfterAnswer(answers, engAns) {
+            return new Promise(resolve => {
+                const filter = m => !m.author.bot;
+                const collector = message.channel.createMessageCollector({ filter, time: 120000 });
                 collector.on('collect', m => {
-                    console.log(`Collected ${m.content}`);
-                    if (m.content === answer) {
+                    const msg = m.content.toLowerCase();
+
+                    if (answers.has(msg)) {
                         m.reply("Correct!")
                         collector.stop()
-                        cont = true;
                     }
-                    else if (m.content.includes('rb poketrivia help')) {
-                    }
-                    else if (m.content === 'skip') {
+                    else if (msg === 'skip'){         
                         collector.stop()
-                        cont = true;
                     }
-                    else if (m.content === 'hint') {
-
+                    else if (msg === 'hint') {
+                        let hintMsg = engAns.charAt(0).padEnd((engAns.length), '?');
+                        message.channel.send(hintMsg);
                     }
-                    else if (m.content === 'exit' || m.content.includes('rb poketrivia')) {
-                        console.log("stop")
-                        collector.stop()
-                        cont = false;
+                    else if (msg === 'exit' || msg === 'rb poketrivia') {
+                        message.channel.send("Quiz ended")
+                        resolve("exit");
+                        collector.stop()          
                     }
-                });
+                })
                 
-            }
-        //}
-    //}
+                collector.on('end', collected => {
+                    resolve();
+                    clearTimeout();
+                    console.log(`stop`);
+                });
+                setTimeout(() => {
+                    message.channel.send("Question timeout")
+                    resolve();
+                }, 120000);
+            });
+        }
+    }
 }

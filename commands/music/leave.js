@@ -5,6 +5,7 @@ module.exports = {
     syntax: "",
     permissions: [],
     devOnly: false,
+    aliases: [],
     run: async({client, message, args}) => {
         console.log("");
         

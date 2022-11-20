@@ -5,9 +5,10 @@ module.exports = {
     name: "kick",
     category: "moderation",
     description: "Kick a member.",
-    syntax: "Usage: rb kick @user (for reason)",
+    syntax: "Usage: rb kick [@user] (for reason)",
     permissions: [PermissionFlagsBits.ManageGuild],
     devOnly: false,
+    aliases: [],
     run : async ({client, message, args}) => {
         console.log("kick");
 

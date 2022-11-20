@@ -5,22 +5,34 @@ module.exports = {
     name: "pokemon",
     category: "pokemon",
     description: "Sends information about a pokemon",
-    syntax: "rb pokemon name/number",
+    syntax: "rb pokemon (forms) [name]",
     permissions: [],
     devOnly: false,
-    run: async({client, message, args}) => {
+    aliases: [],
+    run: async ({ client, message, args }) => {
         console.log("pokemon");
 
-        
-        const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${args[0]}/`).then(res => res.json())
-        
+        try {
+            var speciesInfo = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${args[args.length - 1]}/`).then(res => res.json());
+        }
+        catch (err) {
+            console.log(err);
+            return message.channel.send("Error: could not find pokemon");
+
+        }
+        console.log("v " + speciesInfo.varieties.length)
+        const dexNum = speciesInfo.pokedex_numbers[0].entry_number;
+        const pokeInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${dexNum}/`).then(res => res.json());
+        console.log("f " + pokeInfo.forms.length)
+
+
         const Embed = new EmbedBuilder()
-	        .setColor(0x70d9ee)
-	        .setImage(res.sprites.other['official-artwork'].front_default)
-	        .setFooter({ text: res.species.name });    
-        
-        message.channel.send({ embeds: [Embed] });     
-        
+            .setColor(0x70d9ee)
+            .setImage(pokeInfo.sprites.other['official-artwork'].front_default)
+            .setFooter({ text: pokeInfo.species.name });
+
+        message.channel.send({ embeds: [Embed] });
+
 
     }
 }

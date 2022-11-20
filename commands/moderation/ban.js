@@ -5,9 +5,10 @@ module.exports = {
     name: "ban",
     category: "moderation",
     description: "Ban a member. Optional: delete recent messages from the user up to 7 days",
-    syntax: "Usage: rb ban @user (# minutes/hours/days) (reason)",
+    syntax: "Usage: rb ban [@user] (# minutes/hours/days) (reason)",
     permissions: [PermissionFlagsBits.ManageGuild],
     devOnly: false,
+    aliases: [],
     run : async ({client, message, args}) => {
         console.log("ban");
 

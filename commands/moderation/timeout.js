@@ -5,9 +5,10 @@ module.exports = {
     name: "timeout",
     category: "moderation",
     description: "Timeout a member. Max timeout: 28 days",
-    syntax: "Usage: rb timeout @user # minutes/hours/days (reason)",
+    syntax: "Usage: rb timeout [@user] [# minutes/hours/days] (reason)",
     permissions: [PermissionFlagsBits.ManageGuild],
     devOnly: false,
+    aliases: [],
     run : async ({client, message, args}) => {
         console.log("timeout");
 
