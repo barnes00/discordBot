@@ -7,7 +7,6 @@ module.exports = {
     syntax: "",
     permissions: [],
     devOnly: true,
-	aliases: [],
     run: async({client, message, args}) => {
         console.log("test");
         const exampleEmbed = new EmbedBuilder()

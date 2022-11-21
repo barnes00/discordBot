@@ -1,5 +1,6 @@
 const fs = require("fs");
 const { getFiles } = require("../../util/functions");
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: "help",
@@ -9,20 +10,30 @@ module.exports = {
     permissions: [],
     devOnly: false,
     aliases: [],
-    run: async({client, message, args}) => {
+    run: async ({ client, message, args }) => {
         console.log("help");
+
+        const helpEmbed = new EmbedBuilder()
+            .setColor(0x70d9ee)
+            .setTitle('My Commands')
+            .setURL('https://github.com/barnes00/discordBot')
+            .setAuthor({ name: 'Robean', iconURL: 'https://i.imgur.com/BWdqBKG.png', url: 'https://discord.js.org' })
+            .setDescription('My prefix is rb \nType `commandName help` for more details about each command')
+            .setThumbnail('https://i.imgur.com/BWdqBKG.png')
 
         let helpMsg = '';
         fs.readdirSync("./commands/").forEach((category) => {
-            if(category !== "dev"){
-                helpMsg = helpMsg.concat(category, ": ");
+            if (category !== "dev") {
                 commands = getFiles(`./commands/${category}`, ".js");
-                helpMsg = helpMsg.concat(commands.join(", "));
-                helpMsg = helpMsg.concat("\n");
-            }      
+                commandStr = commands.join(", ");
+                commandStr = commandStr.replaceAll(/.js/g, "");
+                helpEmbed.addFields({ name: `${category}`, value: commandStr })
+
+            }
         })
 
-        helpMsg = helpMsg.replaceAll(/.js/g, "");
-        message.channel.send(helpMsg);
+
+        message.channel.send({ embeds: [helpEmbed] });
+
     }
 }
