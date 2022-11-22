@@ -3,13 +3,13 @@ const { EmbedBuilder } = require('discord.js');
 const { formatPokeName, unformatPokeName } = require("../../util/functions");
 
 module.exports = {
-    name: "pokemon",
+    name: "pokedex",
     category: "pokemon",
-    description: "Sends an image of a given pokemon",
-    syntax: "rb pokemon (forms) [name: use hyphens instead of spaces]",
+    description: "Sends information about a given pokemon",
+    syntax: "rb pokedex (forms) [name: use hyphens instead of spaces]",
     permissions: [],
     devOnly: false,
-    aliases: ["pkm"],
+    aliases: ["pd"],
     run: async ({ client, message, args }) => {
         console.log("pokemon");
         //get pokemon info

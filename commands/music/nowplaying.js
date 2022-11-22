@@ -5,7 +5,7 @@ module.exports = {
     syntax: "",
     permissions: [],
     devOnly: false,
-    aliases: [],
+    aliases: ["np"],
     run: async({client, message, args}) => {
         console.log("");
         

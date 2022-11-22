@@ -1,7 +1,7 @@
 module.exports = {
     name: "booli",
     category: "dev",
-    description: "Booli",
+    description: "Booli only bocchi",
     syntax: "",
     permissions: [],
     devOnly: false,

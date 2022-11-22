@@ -8,7 +8,7 @@ module.exports = {
     syntax: "rb poketrivia (# of questions (max:20))",
     permissions: [],
     devOnly: false,
-    aliases: [],
+    aliases: ["pt"],
     run: async ({ client, message, args }) => {
         console.log("poketrivia");
 
