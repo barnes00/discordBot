@@ -23,10 +23,10 @@ module.exports = {
 
         let url;
         let errMsg = [];
-        if (args.length > 1) {
-            const final = formatPokeName(args)
-            for (const element of speciesInfo.varieties) {
-                if (final === element.pokemon.name) {
+        if (args.length > 1) { //if different form, get api url
+            const finalForm = formatPokeName(args)
+            for (const element of speciesInfo.varieties) { //match input to valid form
+                if (finalForm === element.pokemon.name) {
                     url = element.pokemon.url;
                 }
                 errMsg.push(unformatPokeName(element.pokemon.name))
@@ -36,6 +36,7 @@ module.exports = {
             url = speciesInfo.varieties[0].pokemon.url;
         }
 
+        //get more api data
         try {
             var pokeInfo = await fetch(url).then(res => res.json());
         }

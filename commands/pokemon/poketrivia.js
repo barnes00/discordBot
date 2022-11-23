@@ -46,7 +46,7 @@ module.exports = {
             }
         }
 
-        function resolveAfterAnswer(answers, engAns) {
+        function resolveAfterAnswer(answers, engAns) { //function to collect answers after question is sent
             return new Promise(resolve => {
                 const filter = m => !m.author.bot;
                 let timeout = true;

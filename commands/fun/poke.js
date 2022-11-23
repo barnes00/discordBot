@@ -13,8 +13,9 @@ module.exports = {
     run: async ({ client, message, args }) => {
         console.log("poke");
 
-        let num = 0;
-        let user;
+        let num = 0; //add counter at later date
+
+        let user; //get user from message
         if (message.mentions.users.size > 0) {
             user = await message.guild.members.fetch(getGuildUserID(args[0]))
         }
@@ -33,7 +34,7 @@ module.exports = {
         const descTxt = `Hey <@${user.user.id}>, ${message.author.username} wants your attention!`
         const footerTxt = `That's ${num} pokes now!`
         
-        try{
+        try{ //get gif from api
             var res = await fetch('https://nekos.best/api/v2/poke/').then(res => res.json());
         }
         catch(err){

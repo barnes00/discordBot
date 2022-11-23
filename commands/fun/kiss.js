@@ -13,8 +13,9 @@ module.exports = {
     run: async ({ client, message, args }) => {
         console.log("kiss");
 
-        let num = 0;
-        let user;
+        let num = 0; //add counter at later date
+
+        let user; //get user from message
         if (message.mentions.users.size > 0) {
             user = await message.guild.members.fetch(getGuildUserID(args[0]))
         }
@@ -32,7 +33,7 @@ module.exports = {
         const descTxt = `<@${message.author.id}> kisses <@${user.user.id}>`
         const footerTxt = `That's ${num} kisses now!`
 
-        try{
+        try{ //get gif from api
             var res = await fetch('https://nekos.life/api/v2/img/kiss').then(res => res.json());
         }
         catch(err){

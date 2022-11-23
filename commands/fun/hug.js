@@ -13,8 +13,9 @@ module.exports = {
     run: async ({ client, message, args }) => {
         console.log("hug");
 
-        let num = 0;
-        let user;
+        let num = 0; //add counter at later date
+
+        let user; //get user from message
         if (message.mentions.users.size > 0) {
             user = await message.guild.members.fetch(getGuildUserID(args[0]))
         }
@@ -25,7 +26,7 @@ module.exports = {
         else{
             return message.channel.send("Please enter a user to hug")
         }
-        
+
         if (user === undefined) {
             return message.channel.send("Error: cannot find user")
         }
@@ -33,7 +34,7 @@ module.exports = {
         const descTxt = `<@${message.author.id}> hugs <@${user.user.id}>`
         const footerTxt = `That's ${num} hugs now!`
 
-        try{
+        try{ //get gif from api
             var res = await fetch('https://nekos.life/api/v2/img/hug').then(res => res.json());
         }
         catch(err){
