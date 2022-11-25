@@ -15,7 +15,7 @@ const client = new Client({
 let bot = {
     client,
     prefix: "rb",
-    owners: ["358818065863147521"]
+    owners: [process.env.OWNER_ID]
 }
 
 client.commands = new Collection();

@@ -21,7 +21,6 @@ module.exports = {
             .setDescription('My prefix is rb \nType `commandName help` for more details about each command')
             .setThumbnail('https://i.imgur.com/BWdqBKG.png')
 
-        let helpMsg = '';
         fs.readdirSync("./commands/").forEach((category) => {
             if (category !== "dev") {
                 commands = getFiles(`./commands/${category}`, ".js");

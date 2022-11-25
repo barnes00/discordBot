@@ -17,7 +17,6 @@ module.exports = {
             var speciesInfo = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${args[args.length - 1].toLowerCase()}/`).then(res => res.json());
         }
         catch (err) {
-            console.log(err);
             return message.channel.send("Error: could not find pokemon");
         }
 
@@ -41,7 +40,6 @@ module.exports = {
             var pokeInfo = await fetch(url).then(res => res.json());
         }
         catch (err) {
-            console.log(err)
             return message.channel.send("Error - Please enter a valid form: \n" + errMsg.join(", "))
         }
 
@@ -51,14 +49,20 @@ module.exports = {
             .setColor(0x70d9ee)
 
         if (args.includes("shiny")) {
+            if(pokeInfo.sprites.other.home.front_shiny === null){
+                return message.channel.send("Error: No image available")
+            }
             Embed.setImage(pokeInfo.sprites.other.home.front_shiny)
             Embed.setFooter({ text: "shiny " + footerTxt });
         }
         else {
+            if(pokeInfo.sprites.other['official-artwork'].front_default === null){
+                return message.channel.send("Error: No image available")
+            }
             Embed.setImage(pokeInfo.sprites.other['official-artwork'].front_default)
             Embed.setFooter({ text: footerTxt });
         }
-
+        console.log(pokeInfo.sprites.other.home.front_shiny)
         message.channel.send({ embeds: [Embed] });
 
     }
