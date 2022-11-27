@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const { EmbedBuilder } = require('discord.js');
-const { formatPokeName, unformatPokeName } = require("../../util/functions");
+const { formatPokeName, unformatPokeName, upperCaseAll } = require("../../util/functions");
 
 module.exports = {
     name: "pokemon",
@@ -53,16 +53,16 @@ module.exports = {
                 return message.channel.send("Error: No image available")
             }
             Embed.setImage(pokeInfo.sprites.other.home.front_shiny)
-            Embed.setFooter({ text: "shiny " + footerTxt });
+            Embed.setFooter({ text: upperCaseAll("shiny " + footerTxt) });
         }
         else {
             if(pokeInfo.sprites.other['official-artwork'].front_default === null){
                 return message.channel.send("Error: No image available")
             }
             Embed.setImage(pokeInfo.sprites.other['official-artwork'].front_default)
-            Embed.setFooter({ text: footerTxt });
+            Embed.setFooter({ text: upperCaseAll(footerTxt) });
         }
-        console.log(pokeInfo.sprites.other.home.front_shiny)
+        
         message.channel.send({ embeds: [Embed] });
 
     }
