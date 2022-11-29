@@ -4,15 +4,15 @@ A multipurpose personal discord bot
 # Available commands
 The bot has commands for categories of: fun, info, misc, music, and pokemon
 
-fun commands - send randomly generated gifs 
+Fun commands - send randomly generated gifs 
 
-info - display a help menu for the bot
+Info - display a help menu for the bot
 
-misc - commands for choosing random items from a list, emoji stealing, and reminders
+Misc - commands for choosing random items from a list, emoji stealing, and reminders
 
-moderation - ban, timeout, or kick members
+Moderation - ban, timeout, or kick members
 
-music - basic music commands to play a queue of songs 
+Music - basic music commands to play a queue of songs 
 
 Pokemon - commands for displaying official/shiny artwork, types and matchups, stats, and trivia commands
 
