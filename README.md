@@ -19,9 +19,9 @@ Requirements: Have Node.js installed on the device, and have your own registered
 2. Go to the directory where you copied the application and run the command npm install
 3. Create a file called .env and copy paste the following code with your own information
 
-# // .env
-# TOKEN=
-# OWNER_ID=
+> // .env
+> TOKEN=
+> OWNER_ID= 
 
 4. Run the command "node index.js" in the bot's directory
 
