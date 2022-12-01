@@ -49,7 +49,7 @@ module.exports = {
         pokeInfo.stats.forEach(stat => {
             statStr = statStr + upperCaseAll(stat.stat.name) + ": " + stat.base_stat + "\n";
         });
-        statStr = statStr.replaceAll("Special-", "Sp ")
+        statStr = upperCaseAll(statStr.replaceAll("Special-", "Sp "))
 
         //get description 
         let enGenus = speciesInfo.genera.find(function (item) {
@@ -124,7 +124,7 @@ module.exports = {
             .setURL(`https://pokemondb.net/pokedex/${args[args.length - 1].toLowerCase()}`)
             .setDescription(enGenus.genus)
             .setThumbnail(pokeInfo.sprites.front_default)
-        
+
         // get type matchups and type
         let typeMatchups;
         if (pokeInfo.types.length === 1) {
@@ -134,7 +134,7 @@ module.exports = {
         }
         else {
             Embed.addFields(
-                { name: 'Type', value: upperCaseAll(pokeInfo.types[0].type.name + " " + pokeInfo.types[1].type.name) })
+                { name: 'Types', value: upperCaseAll(pokeInfo.types[0].type.name + ", " + pokeInfo.types[1].type.name) })
             typeMatchups = getMatchups([pokeInfo.types[0].type.name, pokeInfo.types[1].type.name]);
         }
 

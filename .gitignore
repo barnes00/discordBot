@@ -2,4 +2,4 @@
 package-lock.json
 node_modules/
 
-commands/dev/booli.js
+commands/dev/
