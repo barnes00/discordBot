@@ -11,13 +11,36 @@ module.exports = {
     run: async ({ client, message, args }) => {
         console.log("stealemoji");
 
-        let emoji; 
-        if (args.length > 0) {
-            //message link and id support here
-            const message = await message.channel.messages.fetch({ limit: 25, cache: false })
+        let emoji;
+        if (args.length > 0) { //if command has message link
+            let channel;
+            let msgID;
+            try {
+                const linkArr = args[0].split("/")
+                msgID = linkArr.at(-1)
+                const channelID = linkArr.at(-2)
+                const guildID = linkArr.at(-3)
+
+                const guild = client.guilds.cache.get(guildID)
+                channel = guild.channels.cache.get(channelID)
+            }
+            catch (err) {
+                return message.channel.send("Error: Please send valid message link (bot must be in the server)")
+            }
+
+            let msg;
+            try {
+                msg = await channel.messages.fetch(msgID)
+            }
+            catch (err) {
+                console.log(err)
+                return message.channel.send("Error: cannot find message")
+            }
+
+            emoji = parseEmoji(msg.content)
+
         }
-        else { //no specified message
-            //get past 25 messages and find most recent emoji
+        else { //get past 25 messages and find most recent emoji
             let messages = await message.channel.messages.fetch({ limit: 25, cache: false })
             messages = messages.filter(msg => {
                 if (parseEmoji(msg.content) !== null) {
