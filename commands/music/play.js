@@ -1,13 +1,22 @@
 module.exports = {
-    name: "",
+    name: "play",
     category: "music",
-    description: "",
-    syntax: "",
+    description: "Play a song",
+    syntax: "rb play [song name]",
     permissions: [],
     devOnly: false,
     aliases: ["p"],
     run: async({client, message, args}) => {
-        console.log("");
+        console.log("play");
+        
+        let queue = client.player.createQueue(message.guild.id);
+        await queue.join(message.member.voice.channel);
+        let song = await queue.play(args.join(' ')).catch(err => {
+            console.log(err);
+            if(!guildQueue)
+                queue.stop();
+        });
+        
         
     }
 }

@@ -1,6 +1,7 @@
 // Initialize dotenv
 require('dotenv').config();
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
+const { Player } = require("discord-music-player");
 
 const client = new Client({
     intents: [
@@ -8,6 +9,7 @@ const client = new Client({
         GatewayIntentBits.GuildMessages, 
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
+        GatewayIntentBits.GuildVoiceStates
 
     ]
 })
@@ -27,6 +29,13 @@ client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reloa
 
 client.loadEvents(bot,false);
 client.loadCommands(bot, false);
+
+//initialize music player
+const player = new Player(client, {
+    leaveOnEmpty: false, // This options are optional.
+});
+
+client.player = player;
 
 module.exports = bot
 
