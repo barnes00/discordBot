@@ -8,7 +8,7 @@ module.exports = {
     aliases: ["p"],
     run: async({client, message, args}) => {
         console.log("play");
-        
+        let guildQueue = client.player.getQueue(message.guild.id)
         let queue = client.player.createQueue(message.guild.id);
         await queue.join(message.member.voice.channel);
         let song = await queue.play(args.join(' ')).catch(err => {
