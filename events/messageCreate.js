@@ -12,8 +12,16 @@ module.exports = {
         const args = message.content.slice(bot.prefix.length).trim().split(/ +/g);
         const cmdstr = args.shift().toLowerCase();
 
-        let command = client.commands.get(cmdstr);
+        let command;
+        if(client.aliases.has(cmdstr)){
+            command = client.commands.get(client.aliases.get(cmdstr));
+        }
+        else{
+            command = client.commands.get(cmdstr);
+        }
+        
         if (!command) return;
+        
         let member = message.member;
         if (command.devOnly && !bot.owners.includes(member.id)){
             return message.reply("This command is only available to bot owners");
