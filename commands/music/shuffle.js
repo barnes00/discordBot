@@ -1,13 +1,20 @@
 module.exports = {
-    name: "",
+    name: "shuffle",
     category: "music",
-    description: "",
-    syntax: "",
+    description: "Shuffle the current queue",
+    syntax: "rb shuffle",
     permissions: [],
     devOnly: false,
     aliases: [],
     run: async({client, message, args}) => {
-        console.log("");
+        console.log("shuffle");
+
+        let queue = client.player.getQueue(message.guild.id)
+        
+        if (queue === undefined || queue.songs.length < 2) {
+            return message.channel.send("Error: There is nothing to shuffle")
+        }
+        queue.shuffle();
         
     }
 }

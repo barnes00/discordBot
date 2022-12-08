@@ -34,12 +34,14 @@ client.loadCommands(bot, false);
 
 //initialize music player
 const player = new Player(client, {
-    leaveOnEmpty: false, // This options are optional.
+    leaveOnEmpty: false, 
+    leaveOnEnd: false,
+    deafenOnJoin: true,
 });
 
 client.player = player;
 
-module.exports = bot
+module.exports = bot;
 
 // Log in the bot
 client.login(process.env.TOKEN);

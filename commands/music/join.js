@@ -10,8 +10,8 @@ module.exports = {
     aliases: [],
     run: async ({ client, message, args }) => {
         console.log("join");
-        let connection;
 
+        let connection;
         if (!message.member.voice.channel) {
             return message.channel.send("Error: User must be in a voice channel")
         }
@@ -22,7 +22,8 @@ module.exports = {
             connection = joinVoiceChannel({
                 channelId: message.member.voice.channel.id,
                 guildId: message.guildId,
-                adapterCreator: message.guild.voiceAdapterCreator
+                adapterCreator: message.guild.voiceAdapterCreator,
+                selfDeaf: true
             });
         }
     }
