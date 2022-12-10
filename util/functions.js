@@ -58,6 +58,7 @@ const unformatPokeName = (nameStr) => { //format api name string to regular name
 }
 
 const upperCaseAll = (str) => { //make every word uppercase
+    
     const arr = str.split(" ");
 
     for (var i = 0; i < arr.length; i++) {
