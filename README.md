@@ -6,18 +6,18 @@ The bot has commands for categories of: fun, info, misc, music, and pokemon
 
 Fun commands - send randomly generated gifs 
 
-Info - display a help menu for the bot
+Info - help menu and weather commands
 
-Misc - commands for choosing random items from a list, emoji stealing, and reminders
+Misc - commands for choosing random items from a list, emoji management, and reminders
 
 Moderation - ban, timeout, or kick members
 
 Music - basic music commands to play a queue of songs 
 
-Pokemon - commands for displaying official/shiny artwork, types and matchups, stats, and trivia commands
+Pokemon - commands for displaying official/shiny artwork of all forms, basic Pokemon information, types matchups, stats, and trivia commands
 
 # Development
-The bot is created with Node.js using the Discord.js library. Handlers, events, and commands are seperated into different directories and files to improve readability. The fun and Pokemon commands utilize open APIs to retrieve images and data. 
+The bot is created with Node.js using the Discord.js library. Handlers, events, and commands are seperated into different directories and files to improve readability. The fun, weather, and Pokemon commands utilize open APIs to retrieve images and data. 
 
 # Local Copy Installation
 Requirements: Have Node.js installed on the device, and have your own registered Discord bot and know its token
