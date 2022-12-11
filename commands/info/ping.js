@@ -8,6 +8,7 @@ module.exports = {
     aliases: [],
     run: async({client, message, args}) => {
         console.log("ping");
-        message.reply("Pong")
+        var date = Date.now()
+        message.channel.send(`Pong! \nBot: ${Math.round(Date.now() - date)}ms \nAPI: ${Math.round(client.ws.ping)}ms`)
     }
 }
