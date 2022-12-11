@@ -10,7 +10,7 @@ Info - help menu and weather commands
 
 Misc - commands for choosing random items from a list, emoji management, and reminders
 
-Moderation - ban, timeout, or kick members
+Moderation - ban, timeout, or kick members, purge messages
 
 Music - basic music commands to play a queue of songs 
 

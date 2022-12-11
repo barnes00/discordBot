@@ -16,5 +16,7 @@ module.exports = {
         }
         queue.shuffle();
         
+        return message.channel.send("Queue was shuffled")
+        
     }
 }

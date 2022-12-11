@@ -17,10 +17,14 @@ module.exports = {
 
         if(args[0] === "off"){
             queue.setRepeatMode(0);
+            return message.channel.send("Repeat mode disabled")
         }
         else{
             queue.setRepeatMode(2);
+            return message.channel.send("Repeat mode enabled")
         }
+
+        
         
         
 

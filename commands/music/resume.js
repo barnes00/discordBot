@@ -14,5 +14,7 @@ module.exports = {
             return message.channel.send("Error: Nothing is currently paused")
         }
         queue.setPaused(false)
+
+    
     }
 }

@@ -1,3 +1,5 @@
+const { Utils } = require("discord-music-player");
+
 module.exports = {
     name: "play",
     category: "music",
@@ -8,7 +10,6 @@ module.exports = {
     aliases: ["p"],
     run: async ({ client, message, args }) => {
         console.log("play");
-
         
         if (args.length === 0) {
             return message.channel.send("Error: Enter a song to play")
@@ -24,11 +25,17 @@ module.exports = {
         }
         
         await queue.join(message.member.voice.channel);
-        queue.play(args.join(' ')).catch(err => {
+        
+        const addedSong = await queue.play(args.join(' '), {requestedBy: message.author.tag}).catch(err => {
             console.log(err);
-            if (!queue)
+            if (!queue){
                 queue.stop();
+            }
+            return message.channel.send("Error: song not added")
+
         });
+
+        return message.channel.send(`Success! ${addedSong.name} by ${addedSong.author} added to queue`)
 
 
     }

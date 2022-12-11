@@ -3,7 +3,7 @@ const { getVoiceConnection } = require('@discordjs/voice');
 module.exports = {
     name: "leave",
     category: "music",
-    description: "Makes the bot leave the voice channel",
+    description: "Makes the bot stop playing music and leave the voice channel",
     syntax: "rb leave",
     permissions: [],
     devOnly: false,

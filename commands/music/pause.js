@@ -15,6 +15,7 @@ module.exports = {
             return message.channel.send("Error: Nothing is currently playing")
         }
         queue.setPaused(true)
+        
 
 
     }
