@@ -48,22 +48,22 @@ module.exports = {
 
         function resolveAfterAnswer(answers, engAns) { //function to collect answers after question is sent
             return new Promise(resolve => {
+                const timeout = setTimeout(() => {
+                    message.channel.send("Question timeout")
+                },120000)
+                
                 const filter = m => !m.author.bot;
-                let timeout = true;
+                
                 const collector = message.channel.createMessageCollector({ filter, time: 120000 });
                 collector.on('collect', m => {
                     const msg = m.content.toLowerCase();
 
                     if (answers.has(msg)) {
                         m.reply("Correct!")
-                        timeout = false;
-                        collector.stop()
-                        resolve();
+                        collector.stop()   
                     }
                     else if (msg === 'skip'){
-                        timeout = false;
-                        collector.stop()
-                        resolve();
+                        collector.stop() 
                     }
                     else if (msg === 'hint') {
                         let hintMsg = engAns.charAt(0).padEnd((engAns.length), '?');
@@ -71,20 +71,15 @@ module.exports = {
                     }
                     else if (msg === 'exit' || msg === 'rb poketrivia') {
                         message.channel.send("Trivia ended")
-                        timeout = false;
-                        collector.stop()
                         resolve("exit");
+                        collector.stop()
                     }
                 })
                 
                 collector.on('end', collected => {
-                    if(timeout === true){
-                        message.channel.send("Question timeout")
-                    }
-                });
-                setTimeout(() => {
+                    clearTimeout(timeout)
                     resolve();
-                }, 120000);
+                });
             });
         }
     }

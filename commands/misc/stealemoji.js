@@ -23,6 +23,10 @@ module.exports = {
 
                 const guild = client.guilds.cache.get(guildID)
                 channel = guild.channels.cache.get(channelID)
+
+                if(guild === undefined || channel === undefined){
+                    throw err;
+                }
             }
             catch (err) {
                 return message.channel.send("Error: Please send valid message link (bot must be in the server)")
