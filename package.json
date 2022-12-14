@@ -6,7 +6,8 @@
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.1",
     "isomorphic-unfetch": "^3.1.0",
-    "node-fetch": "^2.6.7"
+    "node-fetch": "^2.6.7",
+    "pg": "^8.8.0"
   },
   "name": "discordbot",
   "version": "1.0.0",

@@ -2,6 +2,7 @@
 require('dotenv').config();
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
 const { Player } = require("discord-music-player");
+const pg = require('pg')
 
 const client = new Client({
     intents: [
@@ -36,8 +37,25 @@ const player = new Player(client, {
     leaveOnEnd: false,
     deafenOnJoin: true,
 });
-
 client.player = player;
+
+//initialize db connection
+const dbClient = new pg.Client({
+    host: 'localhost',
+    port: 5432,
+    database: 'test',
+    user: 'postgres',
+    password: process.env.DB_USER_PW,
+  })
+
+dbClient.connect((err) => {
+  if (err) {
+    console.error('connection error', err.stack)
+  } else {
+    client.dbClient = dbClient;
+    console.log('Database connected')
+  }
+})
 
 module.exports = bot;
 
