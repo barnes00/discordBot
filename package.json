@@ -7,7 +7,9 @@
     "dotenv": "^16.0.1",
     "isomorphic-unfetch": "^3.1.0",
     "node-fetch": "^2.6.7",
-    "pg": "^8.8.0"
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.27.0"
   },
   "name": "discordbot",
   "version": "1.0.0",

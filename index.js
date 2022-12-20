@@ -1,13 +1,13 @@
 // Initialize dotenv
 require('dotenv').config();
 const { Client, Collection, GatewayIntentBits } = require('discord.js');
-const { Player } = require("discord-music-player");
-const pg = require('pg')
+
+
 
 const client = new Client({
     intents: [
-        GatewayIntentBits.Guilds, 
-        GatewayIntentBits.GuildMessages, 
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
         GatewayIntentBits.GuildMembers,
         GatewayIntentBits.GuildVoiceStates
@@ -25,37 +25,23 @@ client.events = new Collection();
 client.aliases = new Collection();
 
 //load event/commands and handlers
-client.loadEvents = (bot,reload) => require("./handlers/events")(bot, reload);
+client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload);
 client.loadCommands = (bot, reload) => require("./handlers/commands")(bot, reload);
 
-client.loadEvents(bot,false);
+client.loadEvents(bot, false);
 client.loadCommands(bot, false);
 
 //initialize music player
-const player = new Player(client, {
-    leaveOnEmpty: false, 
-    leaveOnEnd: false,
-    deafenOnJoin: true,
-});
-client.player = player;
+const { returnPlayer } = require('./handlers/player');
+client.player = returnPlayer(client);
 
 //initialize db connection
-const dbClient = new pg.Client({
-    host: 'localhost',
-    port: 5432,
-    database: 'test',
-    user: 'postgres',
-    password: process.env.DB_USER_PW,
-  })
+const { initDatabase } = require('./handlers/database');
+client.dbClient = initDatabase();
 
-dbClient.connect((err) => {
-  if (err) {
-    console.error('connection error', err.stack)
-  } else {
-    client.dbClient = dbClient;
-    console.log('Database connected')
-  }
-})
+//load reminders
+const { loadReminders } = require('./handlers/reminders');
+//loadReminders(client);
 
 module.exports = bot;
 

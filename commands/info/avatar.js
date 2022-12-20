@@ -20,8 +20,15 @@ module.exports = {
         }
         else if(args.length > 0){
             user = await message.guild.members.fetch({ query: args.join(" ") })
-            user = user.at(0).user
+            if(user.size === 0){
+                return message.channel.send("Error: unable to find user")
+            }
+            else{
+                user = user.at(0).user
+            }
+            
         }
+
         if(user === undefined){
             return message.channel.send("Error: unable to find user")
         }
