@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const { EmbedBuilder } = require('discord.js');
-const { formatPokeName, unformatPokeName, upperCaseAll } = require("../../util/functions");
+const { formatPokeName, unformatPokeName, upperCaseFirst } = require("../../util/functions");
 
 module.exports = {
     name: "pokedex",
@@ -47,9 +47,9 @@ module.exports = {
         //get stats
         let statStr = '';
         pokeInfo.stats.forEach(stat => {
-            statStr = statStr + upperCaseAll(stat.stat.name) + ": " + stat.base_stat + "\n";
+            statStr = statStr + upperCaseFirst(stat.stat.name) + ": " + stat.base_stat + "\n";
         });
-        statStr = upperCaseAll(statStr.replaceAll("Special-", "Sp "))
+        statStr = upperCaseFirst(statStr.replaceAll("Special-", "Sp "))
 
         //get description 
         let enGenus = speciesInfo.genera.find(function (item) {
@@ -101,10 +101,10 @@ module.exports = {
             let resistanceArr = [];
             typeMatchupMap.forEach(function (value, type) {
                 if (value > 1) {
-                    weaknessArr.push(upperCaseAll(type) + " x" + value)
+                    weaknessArr.push(upperCaseFirst(type) + " x" + value)
                 }
                 else if (value < 1) {
-                    resistanceArr.push(upperCaseAll(type) + " x" + value)
+                    resistanceArr.push(upperCaseFirst(type) + " x" + value)
                 }
             })
 
@@ -120,7 +120,7 @@ module.exports = {
 
         const Embed = new EmbedBuilder()
             .setColor(0x70d9ee)
-            .setTitle("#" + speciesInfo.pokedex_numbers[0].entry_number + " " + upperCaseAll(unformatPokeName(pokeInfo.forms[0].name)))
+            .setTitle("#" + speciesInfo.pokedex_numbers[0].entry_number + " " + upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name)))
             .setURL(`https://pokemondb.net/pokedex/${args[args.length - 1].toLowerCase()}`)
             .setDescription(enGenus.genus)
             .setThumbnail(pokeInfo.sprites.front_default)
@@ -129,12 +129,12 @@ module.exports = {
         let typeMatchups;
         if (pokeInfo.types.length === 1) {
             Embed.addFields(
-                { name: 'Type', value: upperCaseAll(pokeInfo.types[0].type.name) })
+                { name: 'Type', value: upperCaseFirst(pokeInfo.types[0].type.name) })
             typeMatchups = getMatchups([pokeInfo.types[0].type.name]);
         }
         else {
             Embed.addFields(
-                { name: 'Types', value: upperCaseAll(pokeInfo.types[0].type.name + ", " + pokeInfo.types[1].type.name) })
+                { name: 'Types', value: upperCaseFirst(pokeInfo.types[0].type.name + ", " + pokeInfo.types[1].type.name) })
             typeMatchups = getMatchups([pokeInfo.types[0].type.name, pokeInfo.types[1].type.name]);
         }
 

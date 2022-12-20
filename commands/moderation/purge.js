@@ -10,7 +10,7 @@ module.exports = {
     run: async({client, message, args}) => {
         console.log("purge");
         
-        if(args.length < 1 || isNaN(Number(args[0])) || !Number.isInteger(Number(args[0])) || Number(args[0]) < 1 || Number(args[0]) > 99){
+        if(args.length < 1 || isNaN(Number(args[0])) || !Number.isSafeInteger(Number(args[0])) || Number(args[0]) < 1 || Number(args[0]) > 99){
             return message.channel.send("Error: Please enter a valid number (under 100)")
         }
         try{

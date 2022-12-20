@@ -1,6 +1,6 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
-const { upperCaseAll } = require("../../util/functions");
+const { upperCaseFirst } = require("../../util/functions");
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
@@ -61,7 +61,7 @@ module.exports = {
         //format weather description numb = +numb.toFixed(2);
         let weatherDesc = '';
         for (let i = 0; i < weather.current.weather.length; i++) {
-            weatherDesc = weatherDesc + upperCaseAll(weather.current.weather[i].description);
+            weatherDesc = weatherDesc + upperCaseFirst(weather.current.weather[i].description);
             if (weather.current.weather[i].main === "Rain" && weather.daily[0].rain !== undefined) {
                 weatherDesc += `: ${+(weather.daily[0].rain / 25.4).toFixed(2)} in`
             }

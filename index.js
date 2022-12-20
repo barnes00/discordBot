@@ -42,7 +42,7 @@ client.dbClient = initDatabase();
 
 //load reminders
 const { loadReminders } = require('./handlers/reminders');
-//loadReminders(client);
+loadReminders(client);
 
 module.exports = bot;
 

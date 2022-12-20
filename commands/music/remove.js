@@ -14,7 +14,7 @@ module.exports = {
         if (queue === undefined || queue.songs.length < 2) {
             return message.channel.send("Error: Nothing is currently queued")
         }
-        else if(args.length < 1 || isNaN(Number(args[0])) || !Number.isInteger(Number(args[0])) || Number(args[0]) > (queue.songs.length - 1) ||  Number(args[0]) < 1){
+        else if(args.length < 1 || isNaN(Number(args[0])) || !Number.isSafeInteger(Number(args[0])) || Number(args[0]) > (queue.songs.length - 1) ||  Number(args[0]) < 1){
             return message.channel.send("Error: Enter a valid number from the queue")
         }
 

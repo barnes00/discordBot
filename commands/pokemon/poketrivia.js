@@ -14,7 +14,7 @@ module.exports = {
 
         //multiple question logic
         let qNum = 1;
-        if (Number.isInteger(Number.parseInt(args[0]))) {
+        if (Number.isSafeInteger(Number(args[0]))) {
             if (!((args[0] <= 20) && (args[0] > 0))) {
                 return message.channel.send("Please enter a valid number (max: 20)")
             }
