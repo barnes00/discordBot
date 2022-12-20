@@ -1,3 +1,5 @@
+const { addReminder } = require('./handlers/reminders');
+
 module.exports = {
     name: "remindme",
     category: "misc",
@@ -9,32 +11,30 @@ module.exports = {
     run: async ({ client, message, args }) => {
         console.log("remindme");
 
-        const remind_date = new Date();
-        remind_date.setSeconds(remind_date.getSeconds() + 10);
-        remind_date.setHours(remind_date.getHours() - 6);
-        let propDate = remind_date.toISOString().replace("T", " ").replace(".", "-").slice(0, -2);
-        propDate = propDate.slice(0, propDate.lastIndexOf('-'))
-        console.log(typeof(propDate), propDate)
-        //create reminder 1m into the future lol
-        // insert
-        //const text1 = `INSERT INTO reminders VALUES(DEFAULT, NOW(), '358818065863147521', 'test desc now')`
-        const text2 = `INSERT INTO reminders VALUES(DEFAULT, '${propDate}', '358818065863147521', 'test desc 10s')`
+        let arrayCopy = [...args];
+        let r_date;
+        let desc = "test";
 
-        // callback
-        // client.dbClient.query(text1, (err, res) => {
-        //     if (err) {
-        //         console.log(err.stack)
-        //     } else {
-        //         //console.log(res)
-        //     }
-        // })
-        client.dbClient.query(text2, (err, res) => {
-            if (err) {
-                console.log(err.stack)
-            } else {
-                //console.log(res)
-            }
-        })
+        r_date = new Date();
+        r_date.setSeconds(r_date.getSeconds() + 10);
+        r_date.setHours(r_date.getHours() - 6);
+        r_date = r_date.toISOString().replace("T", " ").replace(".", "-").slice(0, -2);
+        r_date = r_date.slice(0, r_date.lastIndexOf('-'))
+
+        let reminder = {
+            date: r_date, 
+            authorID: message.authorID, 
+            remDesc: desc
+        }
+
+        addReminder(client, reminder);
+
+        // console.log(typeof(propDate), propDate)//create reminder 1m into the future lol
+        // //insert
+        // //const text1 = `INSERT INTO reminders VALUES(DEFAULT, NOW(), '358818065863147521', 'test desc now')`
+        // const text2 = `INSERT INTO reminders VALUES(DEFAULT, '${propDate}', '358818065863147521', 'test desc 10s')`
+
+        
 
     }
 }

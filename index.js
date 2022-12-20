@@ -23,6 +23,7 @@ let bot = {
 client.commands = new Collection();
 client.events = new Collection();
 client.aliases = new Collection();
+client.reminders = new Collection();
 
 //load event/commands and handlers
 client.loadEvents = (bot, reload) => require("./handlers/events")(bot, reload);
