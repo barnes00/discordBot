@@ -120,7 +120,7 @@ module.exports = {
 
         const Embed = new EmbedBuilder()
             .setColor(0x70d9ee)
-            .setTitle("#" + speciesInfo.pokedex_numbers[0].entry_number + " " + upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name)))
+            .setTitle("#" + speciesInfo.id + " " + upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name)))
             .setURL(`https://pokemondb.net/pokedex/${args[args.length - 1].toLowerCase()}`)
             .setDescription(enGenus.genus)
             .setThumbnail(pokeInfo.sprites.front_default)
