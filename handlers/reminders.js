@@ -15,7 +15,7 @@ const loadReminder = async (client, reminder) => { // create active reminder
     let date = new Date(reminder.r_date);
     let timeUntil = Math.round(date - Date.now())
 
-    if(client.reminders.has(reminder.r_id)){
+    if (client.reminders.has(reminder.r_id)) {
         return;
     }
 
@@ -47,29 +47,38 @@ const deleteReminder = async (client, r_id) => { // delete reminder
 }
 
 const loadReminders = async (client) => { // create active reminders for today
-        let reminders = [];
-        clearReminders(client);
-        // get todays reminders
-        try {
-            const res = await client.dbClient.query("SELECT * FROM reminders WHERE NOW() < r_date::timestamp AND r_date::timestamp - NOW() <= interval '24 hours' ORDER BY r_date")
-            reminders = res.rows;
-        } catch (err) {
-            console.log(err)
-        }
-
-        for (let i = 0; i < reminders.length; i++) {
-            loadReminder(client, reminders[i])
-        }
-        console.log("Reminders loaded")
-        setTimeout(loadReminders, 86400000, client) //repeat every 24 hrs
-}
-
-const clearReminders = async (client) => { // clear old reminders
+    let reminders = [];
+    clearReminders(client);
+    // get todays reminders
     try {
-        const res = await client.dbClient.query("DELETE FROM reminders WHERE NOW() > r_date::timestamp")
+        const res = await client.dbClient.query("SELECT * FROM reminders WHERE NOW() < r_date::timestamp AND r_date::timestamp - NOW() <= interval '24 hours' ORDER BY r_date")
+        reminders = res.rows;
     } catch (err) {
         console.log(err)
     }
+
+    for (let i = 0; i < reminders.length; i++) {
+        loadReminder(client, reminders[i])
+    }
+    console.log("Reminders loaded")
+    setTimeout(loadReminders, 86400000, client) //repeat every 24 hrs
+}
+
+const clearReminders = async (client) => { // clear old reminders
+    let failedReminders;
+    try {
+        const res = await client.dbClient.query("DELETE FROM reminders WHERE NOW() > r_date::timestamp")
+        failedReminders = res.rows;
+    } catch (err) {
+        console.log(err)
+    }
+
+    for (let i = 0; i < failedReminders.length; i++) { //notify failed reminders
+        let failedRem = failedReminders[i];
+        let user = await client.users.fetch(failedRem.author_id);
+        user.send(`Reminder failed to send: ${failedRem.r_desc} on <t:${failedRem.r_date.getTime() / 1000}:F>`)
+    }
+
 }
 
 const getUserReminders = async (client, author_id) => { // get all reminders for a user
