@@ -7,9 +7,11 @@ Fun commands - cat, dog, hug, poke
 send randomly generated gifs and images
 
 
+
 Info - avatar, help, ping, weather
 
 get a user's avatar, display a help menu, ping the bot, and display current weather for any city
+
 
 
 Misc commands - choose, emojiimage, remindme, stealemoji
@@ -17,14 +19,18 @@ Misc commands - choose, emojiimage, remindme, stealemoji
 commands for choosing random items from a list, emoji management, and reminders
 
 
+
 Moderation - ban, kick, purge, timeout
 
 purge messages and ban/timeout/kick users 
 
 
+
+
 Music - clear, join, leave, nowplaying, pause, play, queue, remove, repeat, resume, shuffle, skip
 
 basic music commands to play a queue of songs 
+
 
 
 Pokemon - pokedex, pokemon, poketrivia
