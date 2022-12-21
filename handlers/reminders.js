@@ -67,7 +67,7 @@ const loadReminders = async (client) => { // create active reminders for today
 const clearReminders = async (client) => { // clear old reminders
     let failedReminders;
     try {
-        const res = await client.dbClient.query("DELETE FROM reminders WHERE NOW() > r_date::timestamp")
+        const res = await client.dbClient.query("DELETE FROM reminders WHERE NOW() > r_date::timestamp RETURNING *")
         failedReminders = res.rows;
     } catch (err) {
         console.log(err)
@@ -78,7 +78,6 @@ const clearReminders = async (client) => { // clear old reminders
         let user = await client.users.fetch(failedRem.author_id);
         user.send(`Reminder failed to send: ${failedRem.r_desc} on <t:${failedRem.r_date.getTime() / 1000}:F>`)
     }
-
 }
 
 const getUserReminders = async (client, author_id) => { // get all reminders for a user
