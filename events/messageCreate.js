@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
     name: "messageCreate",
@@ -31,7 +31,26 @@ module.exports = {
             return message.reply("You do not have permission to use this command");
         }
         if (args[0] === "help"){
-            return message.channel.send(command.description + "\n" + command.syntax);
+            let descStr = command.description;
+            if(command.syntax !== ""){
+                descStr += "\nSyntax: " + command.syntax;
+            }
+            if(command.aliases.length > 0){
+                descStr += "\nAliases: "
+                for (let i = 0; i < command.aliases.length; i++) {
+                    descStr += command.aliases[i];
+                    if(i !== command.aliases.length - 1){
+                        descStr += ', ';
+                    }
+                }
+            }
+
+            const Embed = new EmbedBuilder()
+                .setColor(0x70d9ee)
+                .setTitle(command.name)
+                .setDescription(descStr)
+                
+            return message.channel.send({ embeds: [Embed] });
         }
 
         try{

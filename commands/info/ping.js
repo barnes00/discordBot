@@ -2,7 +2,7 @@ module.exports = {
     name: "ping",
     category: "info",
     description: "Check if the bot is online",
-    syntax: "",
+    syntax: "rb ping",
     permissions: [],
     devOnly: false,
     aliases: [],

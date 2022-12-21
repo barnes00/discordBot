@@ -6,7 +6,7 @@ module.exports = {
     name: "help",
     category: "info",
     description: "Display a help menu",
-    syntax: "",
+    syntax: "rb help",
     permissions: [],
     devOnly: false,
     aliases: [],
