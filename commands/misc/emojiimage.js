@@ -10,7 +10,7 @@ module.exports = {
     aliases: ["ei"],
     run: async ({ client, message, args }) => {
         console.log("emojiimage");
-
+        
         if (parseEmoji(message.content) !== null) { //check for emojis
             if (parseEmoji(message.content).id !== undefined) {
                 const emoji = parseEmoji(message.content)
