@@ -74,7 +74,7 @@ module.exports = {
         //create date object from time string
         let timeArr = timeString.split(" ")
         let r_date = new Date();
-        r_date.setHours(r_date.getHours() - 6);
+        r_date.setHours(r_date.getHours());
 
         if ((timeArr.length % 2) !== 0 || timeArr.length === 0 || timeString === undefined) {
             return message.channel.send("Error: invalid time");

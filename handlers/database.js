@@ -2,8 +2,7 @@ const { Client } = require('pg')
 
 const initDatabase = () => { 
     const dbClient = new Client({
-        host: 'localhost',
-        port: 5432,
+        host: 'postgres',
         database: 'test',
         user: 'postgres',
         password: process.env.DB_USER_PW,
