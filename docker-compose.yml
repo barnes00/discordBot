@@ -15,7 +15,10 @@ services:
          - '5433:5432'
       environment:
          - POSTGRES_PASSWORD=${DB_USER_PW}
-         - POSTGRES_DB=test
-         - POSTGRES_USER=postgres
+         - POSTGRES_DB=${DB_NAME}
+         - POSTGRES_USER=${DB_USER_NAME}
       volumes:
-         - ./database/db-seed.sql:/docker-entrypoint-initdb.d/db-seed.sql
+         - ./database/db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+         - testDB:/etc/postgres
+volumes:
+   testDB:
