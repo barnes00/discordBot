@@ -1,0 +1,1 @@
+CREATE TABLE reminders (r_id serial PRIMARY KEY, r_date TIMESTAMP NOT NULL, author_id VARCHAR(30) NOT NULL, r_desc VARCHAR(255) NOT NULL);

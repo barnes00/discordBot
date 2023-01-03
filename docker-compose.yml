@@ -1,0 +1,24 @@
+version: '3.3'
+services:
+   bot:
+      container_name: bot
+      build: .
+      depends_on: 
+         - postgres
+      volumes:
+         - ./:/usr/src/bot/
+         - /usr/src/bot/node_modules
+   postgres:
+      container_name: testDB
+      image: postgres
+      ports:
+         - '5433:5432'
+      environment:
+         - POSTGRES_PASSWORD=${DB_USER_PW}
+         - POSTGRES_DB=${DB_NAME}
+         - POSTGRES_USER=${DB_USER_NAME}
+      volumes:
+         - ./database/db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+         - testDB:/etc/postgres
+volumes:
+   testDB:
