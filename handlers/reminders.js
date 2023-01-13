@@ -1,9 +1,18 @@
 const addReminder = async (client, reminder) => { // add reminder to database
-    const { date, authorID, rDesc } = reminder;
-    const query = 'INSERT INTO reminders(r_id, r_date, author_id, r_desc) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
-    const values = [date, authorID, rDesc];
+    const { reminder_date, creator_id, reminder_message } = reminder;
+
+    const userQuery = 'INSERT INTO users(user_id) VALUES($1) ON CONFLICT (user_id) DO NOTHING RETURNING *';
+    const userValue = [creator_id];
     try {
-        const res = await client.dbClient.query(query, values)
+        const res = await client.dbClient.query(userQuery, userValue)
+    } catch (err) {
+        console.log(err.stack)
+    }
+
+    const reminderQuery = 'INSERT INTO reminders(reminder_id, remind_on, creator_id, reminder_message) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
+    const reminderValues = [reminder_date, creator_id, reminder_message];
+    try {
+        const res = await client.dbClient.query(reminderQuery, reminderValues)
         return res.rows[0];
     } catch (err) {
         console.log(err.stack)
@@ -11,36 +20,36 @@ const addReminder = async (client, reminder) => { // add reminder to database
 }
 
 const loadReminder = async (client, reminder) => { // create active reminder
-    let user = await client.users.fetch(reminder.author_id);
-    let date = new Date(reminder.r_date);
+    let user = await client.users.fetch(String(reminder.creator_id));
+    let date = new Date(reminder.remind_on);
     let timeUntil = Math.round(date - Date.now())
 
-    if (client.reminders.has(reminder.r_id)) {
+    if (client.reminders.has(reminder.reminder_id)) {
         return;
     }
 
     const newReminder = setTimeout(() => {
         console.log("send rem")
-        user.send(reminder.r_desc)
-        deleteReminder(client, reminder.r_id);
+        user.send(reminder.reminder_message)
+        deleteReminder(client, reminder.reminder_id);
 
     }, timeUntil)
 
-    client.reminders.set(reminder.r_id, newReminder)
+    client.reminders.set(reminder.reminder_id, newReminder)
 }
 
-const deleteReminder = async (client, r_id) => { // delete reminder
+const deleteReminder = async (client, reminder_id) => { // delete reminder
     let deleted;
     try {
-        const res = await client.dbClient.query("DELETE FROM reminders WHERE r_id= $1 RETURNING *", [r_id])
+        const res = await client.dbClient.query("DELETE FROM reminders WHERE reminder_id= $1 RETURNING *", [reminder_id])
         deleted = res.rows[0];
     } catch (err) {
         console.log(err);
     }
 
-    if (client.reminders.has(r_id)) { //delete if reminder is active
-        clearTimeout(client.reminders.get(r_id));
-        client.reminders.delete(r_id);
+    if (client.reminders.has(reminder_id)) { //delete if reminder is active
+        clearTimeout(client.reminders.get(reminder_id));
+        client.reminders.delete(reminder_id);
     }
     console.log("rem deleted");
     return deleted;
@@ -51,7 +60,7 @@ const loadReminders = async (client) => { // create active reminders for today
     clearReminders(client);
     // get todays reminders
     try {
-        const res = await client.dbClient.query("SELECT * FROM reminders WHERE NOW() < r_date::timestamp AND r_date::timestamp - NOW() <= interval '24 hours' ORDER BY r_date")
+        const res = await client.dbClient.query("SELECT * FROM reminders WHERE NOW() < remind_on::timestamp AND remind_on::timestamp - NOW() <= interval '24 hours' ORDER BY remind_on")
         reminders = res.rows;
     } catch (err) {
         console.log(err)
@@ -67,7 +76,7 @@ const loadReminders = async (client) => { // create active reminders for today
 const clearReminders = async (client) => { // clear old reminders
     let failedReminders;
     try {
-        const res = await client.dbClient.query("DELETE FROM reminders WHERE NOW() > r_date::timestamp RETURNING *")
+        const res = await client.dbClient.query("DELETE FROM reminders WHERE NOW() > remind_on::timestamp RETURNING *")
         failedReminders = res.rows;
     } catch (err) {
         console.log(err)
@@ -75,14 +84,14 @@ const clearReminders = async (client) => { // clear old reminders
 
     for (let i = 0; i < failedReminders.length; i++) { //notify failed reminders
         let failedRem = failedReminders[i];
-        let user = await client.users.fetch(failedRem.author_id);
-        user.send(`Reminder failed to send: ${failedRem.r_desc} on <t:${failedRem.r_date.getTime() / 1000}:F>`)
+        let user = await client.users.fetch(failedRem.creator_id);
+        user.send(`Reminder failed to send: ${failedRem.reminder_message} on <t:${failedRem.remind_on.getTime() / 1000}:F>`)
     }
 }
 
-const getUserReminders = async (client, author_id) => { // get all reminders for a user
+const getUserReminders = async (client, creator_id) => { // get all reminders for a user
     try {
-        const res = await client.dbClient.query("SELECT * FROM reminders WHERE author_id= $1 ORDER BY r_date", [author_id])
+        const res = await client.dbClient.query("SELECT * FROM reminders WHERE creator_id= $1 ORDER BY remind_on", [creator_id])
         return res.rows;
     } catch (err) {
         console.log(err)
