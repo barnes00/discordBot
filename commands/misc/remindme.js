@@ -37,14 +37,14 @@ module.exports = {
             }
         }
         else if (args[0] === "list") { // show list of user's reminders
-            let userReminders = await getUserReminders(client, message.author.id);
+            let userReminders = await getUserReminders(client, BigInt(message.author.id));
             if(userReminders.length === 0){
                 return message.channel.send("You have no reminders")
             }
 
             let reminderList = ""; //format reminder list
             for(let i = 0; i < userReminders.length; i++){
-                reminderList += `${i+1}: ${userReminders[i].r_desc} on <t:${userReminders[i].r_date.getTime() / 1000}:F> \n`
+                reminderList += `${i+1}: ${userReminders[i].reminder_message} on <t:${userReminders[i].remind_on.getTime() / 1000}:F> \n`
             }
 
             const Embed = new EmbedBuilder()
@@ -55,26 +55,26 @@ module.exports = {
             return message.channel.send({ embeds: [Embed] });
         }
         else if (args[0] === "remove") { // remove a reminder
-            let userReminders = await getUserReminders(client, message.author.id);
+            let userReminders = await getUserReminders(client, BigInt(message.author.id));
             const num = Number(args[1])
             if (!(Number.isSafeInteger(num) && num > 0 && num <= userReminders.length)) {
                 return message.channel.send("Error: invalid reminder number")
             }
-            let deleted = await deleteReminder(client, userReminders[num - 1].r_id)
-            return message.channel.send(`Success! Removed reminder to ${deleted.r_desc} on <t:${deleted.r_date.getTime() / 1000}:F>`)
+            let deleted = await deleteReminder(client, userReminders[num - 1].reminder_id)
+            return message.channel.send(`Success! Removed reminder to ${deleted.reminder_message} on <t:${deleted.remind_on.getTime() / 1000}:F>`)
         }
         else {
             return message.channel.send("Error: invalid syntax")
         }
 
         if (desc === undefined || desc.length === 0 || desc.length > 255) {
-            return message.channel.send("Error: invalid description")
+            return message.channel.send("Error: invalid description length")
         }
 
         //create date object from time string
         let timeArr = timeString.split(" ")
-        let r_date = new Date();
-        r_date.setHours(r_date.getHours());
+        let reminder_date = new Date();
+        reminder_date.setHours(reminder_date.getHours());
 
         if ((timeArr.length % 2) !== 0 || timeArr.length === 0 || timeString === undefined) {
             return message.channel.send("Error: invalid time");
@@ -86,33 +86,33 @@ module.exports = {
                 return message.channel.send("Error: invalid time")
             }
             else if (timeArr[i + 1] === 'minute' || timeArr[i + 1] === 'minutes') {
-                r_date.setMinutes(r_date.getMinutes() + num);
+                reminder_date.setMinutes(reminder_date.getMinutes() + num);
             }
             else if (timeArr[i + 1] === 'hour' || timeArr[i + 1] === 'hours') {
-                r_date.setHours(r_date.getHours() + num);
+                reminder_date.setHours(reminder_date.getHours() + num);
             }
             else if (timeArr[i + 1] === 'day' || timeArr[i + 1] === 'days') {
-                r_date.setDate(r_date.getDate() + num);
+                reminder_date.setDate(reminder_date.getDate() + num);
             }
         }
 
-        let r_dateSt = r_date.toISOString().replace("T", " ").replace(".", "-").slice(0, -2);
+        let r_dateSt = reminder_date.toISOString().replace("T", " ").replace(".", "-").slice(0, -2);
         r_dateSt = r_dateSt.slice(0, r_dateSt.lastIndexOf('-'))
 
         // add reminder to database and load if less than 24 hrs
         let reminder = {
-            date: r_dateSt,
-            authorID: message.author.id,
-            rDesc: desc
+            reminder_date: r_dateSt,
+            creator_id: BigInt(message.author.id),
+            reminder_message: desc
         }
 
         const newReminder = await addReminder(client, reminder);
-        if (r_date - Date.now() < 86400000) {
+        if (reminder_date - Date.now() < 86400000) {
             loadReminder(client, newReminder)
         }
 
         if (newReminder !== undefined) {
-            return message.channel.send(`Success! Reminder created for <t:${newReminder.r_date.getTime() / 1000}:F>`)
+            return message.channel.send(`Success! Reminder created for <t:${newReminder.remind_on.getTime() / 1000}:F>`)
         }
         else {
             return message.channel.send("Error: Could not create reminder")
