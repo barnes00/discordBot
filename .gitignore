@@ -1,6 +1,6 @@
 .env
 package-lock.json
 node_modules/
-handlers/database.js 
+
 
 commands/dev/
