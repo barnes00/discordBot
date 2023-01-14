@@ -27,7 +27,8 @@ CREATE TABLE action_counters (
     CONSTRAINT fk_receiver
        FOREIGN KEY(receiver_id)
           REFERENCES users(user_id)
-          ON DELETE CASCADE
+          ON DELETE CASCADE,
+    UNIQUE (action_type_id, sender_id, receiver_id)
 );
 
 CREATE TABLE reminders (
