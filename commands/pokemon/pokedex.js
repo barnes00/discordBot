@@ -122,9 +122,14 @@ module.exports = {
             .setColor(0x70d9ee)
             .setTitle("#" + speciesInfo.id + " " + upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name)))
             .setURL(`https://pokemondb.net/pokedex/${args[args.length - 1].toLowerCase()}`)
-            .setDescription(enGenus.genus)
-            .setThumbnail(pokeInfo.sprites.front_default)
 
+        if(enGenus){
+            Embed.setDescription(enGenus.genus)
+        }
+        if(pokeInfo.sprites.front_default){
+            Embed.setThumbnail(pokeInfo.sprites.front_default)
+        }
+            
         // get type matchups and type
         let typeMatchups;
         if (pokeInfo.types.length === 1) {
