@@ -3,6 +3,7 @@ services:
    bot:
       container_name: bot
       build: .
+      restart: always
       depends_on: 
          - postgres
       volumes:
@@ -11,6 +12,7 @@ services:
    postgres:
       container_name: testDB
       image: postgres
+      restart: always
       ports:
          - '5433:5432'
       environment:
