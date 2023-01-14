@@ -21,6 +21,7 @@ services:
          - POSTGRES_USER=${DB_USER_NAME}
       volumes:
          - ./database/db-init.sql:/docker-entrypoint-initdb.d/db-init.sql
+         - ./database/db-seed.sql:/docker-entrypoint-initdb.d/db-seed.sql
          - testDB:/etc/postgres
 volumes:
    testDB:
