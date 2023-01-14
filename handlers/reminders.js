@@ -30,17 +30,13 @@ const loadReminder = async (client, reminder) => { // create active reminder
 
     const newReminder = setTimeout(() => {
         console.log("send rem")
-<<<<<<< HEAD
         try{
             user.send(reminder.reminder_message)
         }
         catch(err){
             console.log(err);
         }
-        
-=======
-        user.send(reminder.reminder_message)
->>>>>>> f8fe6f1abc4bf9f744121f270315ee87c753f0f7
+
         deleteReminder(client, reminder.reminder_id);
 
     }, timeUntil)
