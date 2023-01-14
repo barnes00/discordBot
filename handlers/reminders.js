@@ -30,6 +30,7 @@ const loadReminder = async (client, reminder) => { // create active reminder
 
     const newReminder = setTimeout(() => {
         console.log("send rem")
+<<<<<<< HEAD
         try{
             user.send(reminder.reminder_message)
         }
@@ -37,6 +38,9 @@ const loadReminder = async (client, reminder) => { // create active reminder
             console.log(err);
         }
         
+=======
+        user.send(reminder.reminder_message)
+>>>>>>> f8fe6f1abc4bf9f744121f270315ee87c753f0f7
         deleteReminder(client, reminder.reminder_id);
 
     }, timeUntil)
@@ -91,6 +95,7 @@ const clearReminders = async (client) => { // clear old reminders
     for (let i = 0; i < failedReminders.length; i++) { //notify failed reminders
         let failedRem = failedReminders[i];
         let user = await client.users.fetch(failedRem.creator_id);
+<<<<<<< HEAD
         try{
             user.send(`Reminder failed to send: ${failedRem.reminder_message} on <t:${failedRem.remind_on.getTime() / 1000}:F>`)
         }
@@ -98,6 +103,9 @@ const clearReminders = async (client) => { // clear old reminders
             console.log(err);
         }
 
+=======
+        user.send(`Reminder failed to send: ${failedRem.reminder_message} on <t:${failedRem.remind_on.getTime() / 1000}:F>`)
+>>>>>>> f8fe6f1abc4bf9f744121f270315ee87c753f0f7
     }
 }
 
