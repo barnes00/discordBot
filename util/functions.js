@@ -67,17 +67,6 @@ const upperCaseFirst = (str) => { //make every word uppercase
     return str2;
 }
 
-// const incrementCounter = async (client, counter) => { // increase hug/kiss counter
-//     const { type, user1, user2 } = counter;
-//     const query = 'INSERT INTO reminders(reminder_id, remind_on, creator_id, reminder_message) VALUES(DEFAULT, $1, $2, $3) RETURNING *';
-//     const values = [date, authorID, rDesc];
-//     try {
-//         const res = await client.dbClient.query(query, values)
-//         return res.rows[0];
-//     } catch (err) {
-//         console.log(err.stack)
-//     }
-// }
 
 module.exports = {
     getFiles,
