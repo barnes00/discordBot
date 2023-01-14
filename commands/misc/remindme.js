@@ -44,7 +44,7 @@ module.exports = {
 
             let reminderList = ""; //format reminder list
             for(let i = 0; i < userReminders.length; i++){
-                reminderList += `${i+1}: ${userReminders[i].reminder_message} on <t:${userReminders[i].remind_on.getTime() / 1000}:F> \n`
+                reminderList += `${i+1}: ${userReminders[i].reminder_message} on <t:${Math.trunc(userReminders[i].remind_on.getTime() / 1000)}:F> \n`
             }
 
             const Embed = new EmbedBuilder()
@@ -95,12 +95,9 @@ module.exports = {
             }
         }
 
-        let r_dateSt = reminder_date.toISOString().replace("T", " ").replace(".", "-").slice(0, -2);
-        r_dateSt = r_dateSt.slice(0, r_dateSt.lastIndexOf('-'))
-
         // add reminder to database and load if less than 24 hrs
         let reminder = {
-            reminder_date: r_dateSt,
+            reminder_date: reminder_date,
             creator_id: BigInt(message.author.id),
             reminder_message: desc
         }
@@ -109,9 +106,9 @@ module.exports = {
         if (reminder_date - Date.now() < 86400000) {
             loadReminder(client, newReminder)
         }
-
+        
         if (newReminder !== undefined) {
-            return message.channel.send(`Success! Reminder created for <t:${newReminder.remind_on.getTime() / 1000}:F>`)
+            return message.channel.send(`Success! Reminder created for <t:${Math.trunc(newReminder.remind_on.getTime() / 1000)}:F>`)
         }
         else {
             return message.channel.send("Error: Could not create reminder")
