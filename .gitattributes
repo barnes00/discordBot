@@ -1,0 +1,2 @@
+commands/misc/remindme.js merge=ours
+handlers/database.js merge=ours
