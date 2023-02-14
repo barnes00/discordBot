@@ -1,4 +1,4 @@
-const { getFiles } = require("../util/functions");
+const { getFiles } = require("../functions/other");
 
 module.exports = (bot, reload) => {
     const {client} = bot;
