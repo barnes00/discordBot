@@ -1,3 +1,5 @@
+const { upperCaseFirst } = require("../functions/other");
+
 const formatPokeName = (nameArr) => { //args array to api formated name string
     let forms = [...nameArr];
     forms.unshift(forms.pop())
@@ -15,10 +17,13 @@ const formatPokeName = (nameArr) => { //args array to api formated name string
     return forms;
 }
 
-const unformatPokeName = (nameStr) => { //format api name string to regular name string
+const unformatPokeName = (nameStr, engName) => { //format api name string to regular name string
     let finalName = nameStr;
     finalName = finalName.split("-")
-    finalName.push(finalName.shift())
+    if (engName.includes(" ") || engName.includes("-")) {
+        finalName.shift()
+    }
+    finalName.shift()
     finalName = finalName.join(" ")
 
     //special forms
@@ -27,6 +32,13 @@ const unformatPokeName = (nameStr) => { //format api name string to regular name
     finalName = finalName.replace("alola", "alolan")
     finalName = finalName.replace("hisui", "hisuian")
     finalName = finalName.replace("galar", "galarian")
+
+    if(finalName !== ""){
+        finalName = finalName + " " + engName;
+    }
+    else{
+        finalName = engName;
+    }
 
     return finalName;
 }

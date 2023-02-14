@@ -22,6 +22,11 @@ module.exports = {
             return message.channel.send("Error: could not find pokemon");
         }
 
+        //get english species name
+        let enName = speciesInfo.names.find(function (item) {
+            if (item.language.name === "en") { return item; }
+        });
+
         let pokeURL;
         let errMsg = [];
         if (args.length > 1) { //if different form, get api url
@@ -29,8 +34,9 @@ module.exports = {
             for (const element of speciesInfo.varieties) { //match input to valid form
                 if (finalForm === element.pokemon.name) {
                     pokeURL = element.pokemon.url;
+                    break;
                 }
-                errMsg.push(unformatPokeName(element.pokemon.name))
+                errMsg.push(unformatPokeName(element.pokemon.name, enName.name))
             }
         }
         else {
@@ -57,11 +63,19 @@ module.exports = {
             if (item.language.name === "en") { return item; }
         });
 
+        let title;
+        if(args.length > 1){
+            title = ("#" + speciesInfo.id + " " + upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name, enName.name)))
+        }
+        else{
+            title = ("#" + speciesInfo.id + " " + enName.name);
+        }
 
         const Embed = new EmbedBuilder()
             .setColor(0x70d9ee)
-            .setTitle("#" + speciesInfo.id + " " + upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name)))
+            .setTitle(title)
             .setURL(`https://pokemondb.net/pokedex/${args[args.length - 1].toLowerCase()}`)
+
 
         if(enGenus){
             Embed.setDescription(enGenus.genus)

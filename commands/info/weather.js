@@ -1,6 +1,6 @@
 require('dotenv').config();
 const fetch = require('node-fetch');
-const { upperCaseFirst } = require("../../util/functions");
+const { upperCaseFirst } = require("../../functions/other");
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
@@ -21,7 +21,7 @@ module.exports = {
         //get coordinates of location string
         let coordRes;
         let location = args.join(" ")
-        console.log(location)
+        
         try {
             coordRes = await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${process.env.WEATHER_API_KEY}`).then(res => res.json());
             if (coordRes.length === 0) {

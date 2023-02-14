@@ -1,5 +1,5 @@
 const fs = require("fs");
-const { getFiles } = require("../../util/functions");
+const { getFiles } = require("../../functions/other");
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {

@@ -1,4 +1,4 @@
-const { clearReminders, loadReminder } = require('../../functions/reminders');
+const { clearReminders, loadReminder } = require('../functions/reminders');
 
 const loadReminders = async (client) => { // create active reminders for today
     let reminders = [];

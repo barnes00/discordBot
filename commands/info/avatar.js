@@ -1,4 +1,4 @@
-const { getGuildUserID } = require("../../util/functions");
+const { getGuildUserID } = require("../../functions/other");
 const { EmbedBuilder } = require('discord.js');
 module.exports = {
     name: "avatar",

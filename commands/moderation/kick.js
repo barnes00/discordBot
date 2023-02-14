@@ -1,5 +1,5 @@
 const { PermissionFlagsBits } = require("discord.js");
-const { getGuildUserID } = require("../../util/functions");
+const { getGuildUserID } = require("../../functions/other");
 
 module.exports = {
     name: "kick",

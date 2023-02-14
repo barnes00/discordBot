@@ -1,5 +1,5 @@
 const { PermissionFlagsBits } = require("discord.js");
-const { textToTime, getGuildUserID } = require("../../util/functions");
+const { textToTime, getGuildUserID } = require("../../functions/other");
 
 module.exports = {
     name: "ban",

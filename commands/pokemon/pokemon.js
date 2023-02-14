@@ -21,6 +21,11 @@ module.exports = {
             return message.channel.send("Error: could not find pokemon");
         }
 
+        //get english species name
+        let enName = speciesInfo.names.find(function (item) {
+            if (item.language.name === "en") { return item; }
+        });
+
         let url;
         let errMsg = [];
         if (args.length > 1) { //if different form, get api url
@@ -29,7 +34,7 @@ module.exports = {
                 if (finalForm === element.pokemon.name) {
                     url = element.pokemon.url;
                 }
-                errMsg.push(unformatPokeName(element.pokemon.name))
+                errMsg.push(upperCaseFirst(unformatPokeName(element.pokemon.name, enName.name)))
             }
         }
         else {
@@ -44,7 +49,14 @@ module.exports = {
             return message.channel.send("Error - Please enter a valid form: \n" + errMsg.join(", "))
         }
 
-        let footerTxt = unformatPokeName(pokeInfo.forms[0].name)
+        let footerTxt;
+        if(args.length > 1){
+            footerTxt = (upperCaseFirst(unformatPokeName(pokeInfo.forms[0].name, enName.name)))
+        }
+        else{
+            footerTxt = enName.name;
+        }
+        
 
         const Embed = new EmbedBuilder()
             .setColor(0x70d9ee)
