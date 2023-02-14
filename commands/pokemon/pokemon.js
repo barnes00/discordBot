@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const { EmbedBuilder } = require('discord.js');
-const { formatPokeName, unformatPokeName, upperCaseFirst } = require("../../util/functions");
+const { formatPokeName, unformatPokeName } = require("../../functions/pokemon");
+const { upperCaseFirst } = require("../../functions/other");
 
 module.exports = {
     name: "pokemon",

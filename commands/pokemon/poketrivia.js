@@ -23,7 +23,8 @@ module.exports = {
 
         for (let i = 0; i < qNum; i++) {
             //generate question and answers
-            let rndmPoke = (Math.floor(Math.random() * 905) + 1).toString();
+            
+            let rndmPoke = (Math.floor(Math.random() * 1008) + 1).toString();
             const pokeInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${rndmPoke}/`).then(res => res.json())
             const speciesInfo = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${rndmPoke}/`).then(res => res.json())
             
@@ -66,7 +67,7 @@ module.exports = {
                         collector.stop() 
                     }
                     else if (msg === 'hint') {
-                        let hintMsg = engAns.charAt(0).padEnd((engAns.length), '?');
+                        let hintMsg = engAns.charAt(0).padEnd((engAns.length), '\_ ');
                         message.channel.send(hintMsg);
                     }
                     else if (msg === 'exit' || msg === 'rb poketrivia') {

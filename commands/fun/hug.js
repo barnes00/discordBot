@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const { EmbedBuilder } = require('discord.js');
 const { getGuildUserID } = require("../../util/functions");
-const { incrementActionCounter } = require('../../handlers/action');
+const { incrementActionCounter } = require('../../functions/action');
 
 module.exports = {
     name: "hug",

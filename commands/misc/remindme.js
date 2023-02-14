@@ -1,4 +1,4 @@
-const { addReminder, loadReminder, getUserReminders, deleteReminder } = require('../../handlers/reminders');
+const { addReminder, loadReminder, getUserReminders, deleteReminder } = require('../../functions/reminders');
 const { EmbedBuilder } = require('discord.js');
 
 module.exports = {
