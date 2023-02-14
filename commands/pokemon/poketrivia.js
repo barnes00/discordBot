@@ -66,8 +66,12 @@ module.exports = {
                     else if (msg === 'skip'){
                         collector.stop() 
                     }
+                    else if (msg === 'answer'){
+                        message.channel.send(engAns)
+                        collector.stop() 
+                    }
                     else if (msg === 'hint') {
-                        let hintMsg = engAns.charAt(0).padEnd((engAns.length), '\_ ');
+                        let hintMsg = engAns.charAt(0) + " " + '\\_ '.repeat(engAns.length-1);
                         message.channel.send(hintMsg);
                     }
                     else if (msg === 'exit' || msg === 'rb poketrivia') {
