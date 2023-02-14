@@ -105,8 +105,27 @@ const getMatchups = (typeArr) => { //take an array of types and return an array 
     return [weaknessArr.join("\n"), resistanceArr.join("\n")];
 }
 
+const getGenerationNums = (genString) => { 
+    const genMap = new Map([
+        ["gen1", [1, 151]],
+        ["gen2", [152, 251]],
+        ["gen3", [252, 386]],
+        ["gen4", [387, 493]],
+        ["gen5", [494, 649]],
+        ["gen6", [650, 721]],
+        ["gen7", [722, 809]],
+        ["gen8", [810, 905]],
+        ["gen9", [906, 1008]]
+    ]);
+
+    return genMap.get(genString);
+
+    
+}
+
 module.exports = {
     formatPokeName,
     unformatPokeName,
-    getMatchups
+    getMatchups,
+    getGenerationNums
 }
