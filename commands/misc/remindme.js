@@ -7,7 +7,7 @@ module.exports = {
     description: "Set a DM reminder",
     syntax: "rb remindme to [reminder message] in [# minutes/hours/days] | list | remove [reminder #]",
     permissions: [],
-    devOnly: true,
+    devOnly: false,
     aliases: ["rme"],
     run: async ({ client, message, args }) => {
         console.log("remindme");
