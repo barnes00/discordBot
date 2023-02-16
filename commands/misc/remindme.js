@@ -5,7 +5,7 @@ module.exports = {
     name: "remindme",
     category: "misc",
     description: "Set a DM reminder",
-    syntax: "rb remindme to [reminder message] in [# minutes/hours/days] | list | remove [reminder #]",
+    syntax: "rb remindme to [reminder message] in [# days/minutes/hours] | list | remove [reminder #]",
     permissions: [],
     devOnly: false,
     aliases: ["rme"],
@@ -61,7 +61,7 @@ module.exports = {
                 return message.channel.send("Error: invalid reminder number")
             }
             let deleted = await deleteReminder(client, userReminders[num - 1].reminder_id)
-            return message.channel.send(`Success! Removed reminder to ${deleted.reminder_message} on <t:${deleted.remind_on.getTime() / 1000}:F>`)
+            return message.channel.send(`Success! Removed reminder to ${deleted.reminder_message} on <t:${Math.trunc(deleted.remind_on.getTime() / 1000)}:F>`)
         }
         else {
             return message.channel.send("Error: invalid syntax")
@@ -92,6 +92,9 @@ module.exports = {
             }
             else if (timeArr[i + 1] === 'day' || timeArr[i + 1] === 'days') {
                 reminder_date.setDate(reminder_date.getDate() + num);
+            }
+            else{
+                return message.channel.send("Error: please enter days, hours, and/or minutes")
             }
         }
 
