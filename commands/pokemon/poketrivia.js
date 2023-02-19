@@ -36,8 +36,7 @@ module.exports = {
                 rndmPoke = (Math.floor(Math.random() * 1008) + 1).toString(); //no gen
             }
             else{
-                console.log(genNums)
-                rndmPoke = (Math.floor(Math.random() * (genNums[1] - genNums[0])) + genNums[0]).toString();
+                rndmPoke = (Math.floor(Math.random() * ((genNums[1] + 1) - genNums[0]) + genNums[0]).toString());
             }
 
             const pokeInfo = await fetch(`https://pokeapi.co/api/v2/pokemon/${rndmPoke}/`).then(res => res.json())
