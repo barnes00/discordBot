@@ -70,6 +70,8 @@ const clearReminders = async (client) => { // clear old reminders
         console.log(err)
     }
 
+    console.log(failedReminders);
+
     for (let i = 0; i < failedReminders.length; i++) { //notify failed reminders
         let failedRem = failedReminders[i];
         let user = await client.users.fetch(failedRem.creator_id);
