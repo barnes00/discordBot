@@ -25,3 +25,4 @@ services:
          - testDB:/etc/postgres
 volumes:
    testDB:
+      external: true
