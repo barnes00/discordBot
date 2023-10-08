@@ -2,14 +2,18 @@
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
     "@discordjs/rest": "^1.0.1",
+    "@rafateoli/discord-music-player": "^9.2.1",
     "discord-music-player": "^9.1.1",
     "discord.js": "^14.6.0",
     "dotenv": "^16.0.1",
     "isomorphic-unfetch": "^3.1.0",
     "node-fetch": "^2.6.7",
+    "opusscript": "^0.0.8",
     "pg": "^8.8.0",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.27.0"
+    "sequelize": "^6.27.0",
+    "yt-search": "^2.10.4",
+    "ytdl-core": "^4.11.5"
   },
   "name": "discordbot",
   "version": "1.0.0",
